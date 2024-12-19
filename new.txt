@@ -1,0 +1,27 @@
+# Java Coding Standards and Best Practices
+
+This document outlines the coding standards and best practices for Java developers to ensure clean, maintainable, and efficient code.
+
+## Table of Contents
+1. [Code Structure and Formatting](#code-structure-and-formatting)
+2. [Naming Conventions](#naming-conventions)
+3. [Code Design and Architecture](#code-design-and-architecture)
+4. [Exception Handling](#exception-handling)
+5. [Concurrency](#concurrency)
+6. [Use of Collections and Data Structures](#use-of-collections-and-data-structures)
+7. [Code Performance and Memory Management](#code-performance-and-memory-management)
+8. [Version Control](#version-control)
+9. [Testing](#testing)
+10. [Security Best Practices](#security-best-practices)
+11. [Deprecation and Legacy Code](#deprecation-and-legacy-code)
+12. [Performance Optimization](#performance-optimization)
+
+## Code Structure and Formatting
+
+- **Indentation**: Use 4 spaces per indentation level. Do not use tabs.
+- **Line Length**: Keep lines to a maximum of 80-100 characters.
+- **Braces**: Always use curly braces `{}` even for single statements.
+  ```java
+  if (condition) {
+      // statements
+  }
