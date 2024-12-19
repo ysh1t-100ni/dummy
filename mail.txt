@@ -1,0 +1,132 @@
+import javax.mail.*;
+import javax.mail.internet.*;
+import java.util.*;
+import java.io.*;
+
+public class MailUtils {
+
+    // Default configuration for corporate SMTP server
+    private static final String SMTP_HOST = "smtp.yourcorporate.com"; // Replace with your SMTP server
+    private static final String SMTP_PORT = "587"; // Common for TLS, adjust if needed
+    private static final String SMTP_USER = System.getenv("SMTP_USER"); // Username from environment variable
+    private static final String SMTP_PASSWORD = System.getenv("SMTP_PASSWORD"); // Password from environment variable
+
+    // Send a simple text email
+    public static void sendEmail(String toAddresses, String subject, String messageBody, 
+                                 String ccAddresses, String bccAddresses) throws MessagingException {
+        sendEmail(toAddresses, subject, messageBody, ccAddresses, bccAddresses, null); // No attachments
+    }
+
+    // Send an email with HTML content
+    public static void sendHtmlEmail(String toAddresses, String subject, String htmlContent,
+                                     String ccAddresses, String bccAddresses) throws MessagingException {
+        sendEmail(toAddresses, subject, htmlContent, ccAddresses, bccAddresses, null); // No attachments
+    }
+
+    // Send an email with an attachment
+    public static void sendEmailWithAttachment(String toAddresses, String subject, String messageBody,
+                                               String ccAddresses, String bccAddresses, String attachmentPath) throws MessagingException {
+        sendEmail(toAddresses, subject, messageBody, ccAddresses, bccAddresses, attachmentPath);
+    }
+
+    // General method to send email (with or without attachment)
+    private static void sendEmail(String toAddresses, String subject, String messageBody, 
+                                  String ccAddresses, String bccAddresses, String attachmentPath) throws MessagingException {
+        Properties properties = new Properties();
+        properties.put("mail.smtp.host", SMTP_HOST);
+        properties.put("mail.smtp.port", SMTP_PORT);
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+
+        // Create a session with the SMTP server
+        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(SMTP_USER, SMTP_PASSWORD);
+            }
+        });
+
+        // Create the email message
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(SMTP_USER));
+
+        // Parse the recipient addresses (TO)
+        if (toAddresses != null && !toAddresses.isEmpty()) {
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toAddresses));
+        }
+
+        // Parse the CC addresses
+        if (ccAddresses != null && !ccAddresses.isEmpty()) {
+            message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(ccAddresses));
+        }
+
+        // Parse the BCC addresses
+        if (bccAddresses != null && !bccAddresses.isEmpty()) {
+            message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(bccAddresses));
+        }
+
+        message.setSubject(subject);
+
+        // Create the message part (text body)
+        MimeBodyPart textPart = new MimeBodyPart();
+        textPart.setText(messageBody);
+
+        // If there is an attachment, add it to the email
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(textPart);
+
+        if (attachmentPath != null && !attachmentPath.isEmpty()) {
+            // Create the attachment part
+            MimeBodyPart attachmentPart = new MimeBodyPart();
+            try {
+                attachmentPart.attachFile(attachmentPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new MessagingException("Attachment error");
+            }
+            multipart.addBodyPart(attachmentPart);
+        }
+
+        // Set the content of the email to the multipart message
+        message.setContent(multipart);
+
+        // Send the email
+        Transport.send(message);
+    }
+
+    // Utility method to set the SMTP credentials dynamically (useful for testing or temporary changes)
+    public static void configureSMTPCredentials(String username, String password) {
+        // This can be used to override the default SMTP_USER and SMTP_PASSWORD
+        System.setProperty("SMTP_USER", username);
+        System.setProperty("SMTP_PASSWORD", password);
+    }
+}
+
+
+
+-------------------------
+
+import com.example.mail.MailUtils;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Email addresses can be comma-separated
+            String to = "recipient1@corporate.com, recipient2@corporate.com";
+            String cc = "cc1@corporate.com, cc2@corporate.com";
+            String bcc = "bcc1@corporate.com, bcc2@corporate.com";
+
+            // Send a simple email
+            MailUtils.sendEmail(to, "Test Subject", "This is a test email.", cc, bcc);
+
+            // Send an HTML email
+            String htmlContent = "<h1>HTML Email</h1><p>This is an email with <b>HTML content</b>.</p>";
+            MailUtils.sendHtmlEmail(to, "Test HTML Email", htmlContent, cc, bcc);
+
+            // Send an email with an attachment
+            String attachmentPath = "/path/to/your/file.txt";
+            MailUtils.sendEmailWithAttachment(to, "Test Email with Attachment", "This email has an attachment.", cc, bcc, attachmentPath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
