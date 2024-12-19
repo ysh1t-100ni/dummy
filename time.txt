@@ -1,0 +1,48 @@
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
+public class DateTimeUtils {
+
+    // Format a LocalDateTime to a String with a specific pattern
+    public static String formatDateTime(LocalDateTime dateTime, String pattern) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return dateTime.format(formatter);
+    }
+
+    // Parse a String to LocalDateTime using a specific pattern
+    public static LocalDateTime parseDateTime(String dateTimeStr, String pattern) throws DateTimeParseException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return LocalDateTime.parse(dateTimeStr, formatter);
+    }
+
+    // Validate if a String is a valid date-time string based on the provided pattern
+    public static boolean isValidDateTime(String dateTimeStr, String pattern) {
+        try {
+            parseDateTime(dateTimeStr, pattern);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
+    // Add days to a given LocalDateTime and return a new LocalDateTime
+    public static LocalDateTime addDaysToDate(LocalDateTime dateTime, int days) {
+        return dateTime.plusDays(days);
+    }
+
+    // Subtract days from a given LocalDateTime and return a new LocalDateTime
+    public static LocalDateTime subtractDaysFromDate(LocalDateTime dateTime, int days) {
+        return dateTime.minusDays(days);
+    }
+
+    // Get the current date and time formatted as a String
+    public static String getCurrentDateTime(String pattern) {
+        return formatDateTime(LocalDateTime.now(), pattern);
+    }
+
+    // Get the current date formatted as a String
+    public static String getCurrentDate(String pattern) {
+        return formatDateTime(LocalDate.now().atStartOfDay(), pattern); // Converts to LocalDateTime at start of day
+    }
+}
