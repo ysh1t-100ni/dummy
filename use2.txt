@@ -1,0 +1,29 @@
+public class Main {
+    public static void main(String[] args) {
+        // Example 1: Formatting the current date and time
+        String currentDateTime = DateTimeUtils.getCurrentDateTime("yyyy-MM-dd HH:mm:ss");
+        System.out.println("Current DateTime: " + currentDateTime);
+
+        // Example 2: Parsing a date-time string into a LocalDateTime object
+        String dateStr = "2024-12-19 14:30:00";
+        LocalDateTime parsedDate = DateTimeUtils.parseDateTime(dateStr, "yyyy-MM-dd HH:mm:ss");
+        System.out.println("Parsed Date: " + parsedDate);
+
+        // Example 3: Validating a date-time string
+        String validDateStr = "2024-12-19 14:30:00";
+        boolean isValid = DateTimeUtils.isValidDateTime(validDateStr, "yyyy-MM-dd HH:mm:ss");
+        System.out.println("Is the date string valid? " + isValid);
+
+        // Example 4: Adding days to a date
+        LocalDateTime newDate = DateTimeUtils.addDaysToDate(parsedDate, 5);
+        System.out.println("New Date (after adding 5 days): " + newDate);
+
+        // Example 5: Subtracting days from a date
+        LocalDateTime oldDate = DateTimeUtils.subtractDaysFromDate(parsedDate, 3);
+        System.out.println("Old Date (after subtracting 3 days): " + oldDate);
+
+        // Example 6: Get the current date in a specific format
+        String currentDate = DateTimeUtils.getCurrentDate("yyyy-MM-dd");
+        System.out.println("Current Date: " + currentDate);
+    }
+}
