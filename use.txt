@@ -1,0 +1,46 @@
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Example 1: Read a file as a string
+            String content = FileIOUtils.readFileAsString("example.txt");
+            System.out.println("File Content: " + content);
+
+            // Example 2: Write to a file
+            FileIOUtils.writeFile("example.txt", "Hello, world!");
+
+            // Example 3: Append to a file
+            FileIOUtils.appendToFile("example.txt", "\nAppended content.");
+
+            // Example 4: Read file lines as List of Strings
+            List<String> lines = FileIOUtils.readFileAsLines("example.txt");
+            lines.forEach(System.out::println);
+
+            // Example 5: Check if a file exists
+            boolean exists = FileIOUtils.fileExists("example.txt");
+            System.out.println("File exists: " + exists);
+
+            // Example 6: Create a directory
+            FileIOUtils.createDirectory("newDirectory");
+
+            // Example 7: Delete a file or directory
+            FileIOUtils.deleteFile("example.txt");
+
+            // Example 8: Copy a file
+            FileIOUtils.copyFile("source.txt", "destination.txt");
+
+            // Example 9: Move a file
+            FileIOUtils.moveFile("source.txt", "newLocation.txt");
+
+            // Example 10: Get file extension
+            String extension = FileIOUtils.getFileExtension("example.txt");
+            System.out.println("File Extension: " + extension);
+
+            // Example 11: Get file name without extension
+            String fileNameWithoutExtension = FileIOUtils.getFileNameWithoutExtension("example.txt");
+            System.out.println("File Name Without Extension: " + fileNameWithoutExtension);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
