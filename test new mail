@@ -1,0 +1,49 @@
+import javax.mail.*;
+import javax.mail.internet.*;
+import java.util.Properties;
+
+public class EmailSender {
+
+    public static void sendEmail(String serverAddress, boolean isHtml, String htmlBody, String bodyText) throws MessagingException {
+        // Set up properties
+        Properties properties = new Properties();
+        properties.put("mail.smtp.host", serverAddress);
+        properties.put("mail.smtp.auth", "false");  // assuming no authentication needed at this point
+
+        // Create a session with the provided properties
+        Session session = Session.getInstance(properties);
+
+        // Create the message
+        Message message = new MimeMessage(session);
+        
+        // Set from, to, and subject
+        message.setFrom(new InternetAddress("from@example.com"));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("to@example.com"));
+        message.setSubject("Test Email with Table and Inline Image and Table");
+
+        // Set the body content based on isHtml flag
+        if (isHtml) {
+            message.setContent(htmlBody, "text/html");
+        } else {
+            message.setText(bodyText);
+        }
+
+        // Send the message
+        Transport.send(message);
+
+        System.out.println("Email sent successfully.");
+    }
+
+    public static void main(String[] args) {
+        String serverAddress = "smtp.example.com";  // The server address
+        boolean isHtml = false;  // Set to true if HTML content is required
+        String htmlBody = "<html><body><h1>Service Ticket #12345 Update</h1><p>Dear Customer</p></body></html>";
+        String bodyText = "Test Email\n\nThis is a test email.";
+
+        try {
+            sendEmail(serverAddress, isHtml, htmlBody, bodyText);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+}
