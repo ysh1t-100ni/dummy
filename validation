@@ -1,0 +1,197 @@
+import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.activation.*;
+import javax.mail.Session;
+import javax.mail.Transport;
+import java.io.FileReader;
+import com.google.gson.*;
+
+public class SendEmail {
+    public static void main(String[] args) {
+        try {
+            // Read the JSON file
+            JsonObject emailDetails = JsonParser.parseReader(new FileReader("email_details.json")).getAsJsonObject();
+
+            // Basic validation for required fields
+            if (!isValidJson(emailDetails)) {
+                System.out.println("Invalid JSON data. Please ensure all required fields are present and valid.");
+                return;
+            }
+
+            // Extract details from the JSON object
+            String sender = getJsonString(emailDetails, "from");
+            JsonArray to = getJsonArray(emailDetails, "to");
+            JsonArray cc = getJsonArray(emailDetails, "cc");
+            JsonArray bcc = getJsonArray(emailDetails, "bcc");
+            String subject = getJsonString(emailDetails, "subject");
+            boolean isHtml = emailDetails.has("isHtml") && emailDetails.get("isHtml").getAsBoolean();
+
+            // Setting up mail server
+            Properties properties = System.getProperties();
+            properties.setProperty("mail.smtp.host", "127.0.0.1");
+            Session session = Session.getDefaultInstance(properties);
+
+            // MimeMessage object
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(sender));
+
+            // Add recipient(s)
+            for (JsonElement recipient : to) {
+                message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient.getAsString()));
+            }
+
+            // Add CC
+            for (JsonElement recipient : cc) {
+                message.addRecipient(Message.RecipientType.CC, new InternetAddress(recipient.getAsString()));
+            }
+
+            // Add BCC
+            for (JsonElement recipient : bcc) {
+                message.addRecipient(Message.RecipientType.BCC, new InternetAddress(recipient.getAsString()));
+            }
+
+            // Set subject
+            message.setSubject(subject);
+
+            // Handle the email body based on the isHtml flag
+            StringBuilder htmlBody = new StringBuilder();
+
+            if (!isHtml) {
+                // Start constructing the HTML content with head and body tags
+                htmlBody.append("<html>\n")
+                        .append("<head>\n")
+                        .append("<title>").append(subject).append("</title>\n")
+                        .append("<style>\n")
+                        .append("table {border-collapse: collapse; width: 100%;}\n")
+                        .append("th, td {padding: 8px; text-align: left; border: 1px solid #ddd;}\n")
+                        .append("</style>\n")
+                        .append("</head>\n")
+                        .append("<body>\n");
+
+                // Construct HTML body content based on the JSON body.content array
+                JsonObject body = emailDetails.getAsJsonObject("body");
+                
+                for (JsonElement element : body.getAsJsonArray("content")) {
+                    JsonObject content = element.getAsJsonObject();
+                    String type = content.has("type") ? content.get("type").getAsString() : "";
+
+                    switch (type) {
+                        case "heading":
+                            int level = content.has("level") ? content.get("level").getAsInt() : 3;
+                            String headingText = content.has("text") ? content.get("text").getAsString() : "No Heading Text";
+                            htmlBody.append("<h").append(level).append(">").append(headingText).append("</h").append(level).append(">\n");
+                            break;
+                        case "paragraph":
+                            String paragraphText = content.has("text") ? content.get("text").getAsString() : "No Paragraph Text";
+                            htmlBody.append("<p>").append(paragraphText).append("</p>\n");
+                            break;
+                        case "attachment":
+                            // Safely retrieve the "path" for attachments
+                            String filePath = getJsonString(content, "path");
+                            if (!filePath.isEmpty()) {
+                                htmlBody.append("<p><strong>Attachment:</strong> <a href=\"").append(filePath).append("\">").append(filePath).append("</a></p>\n");
+                            } else {
+                                htmlBody.append("<p><strong>Attachment:</strong> No path provided.</p>\n");
+                            }
+                            break;
+                        case "table":
+                            JsonArray tableContent = content.has("content") ? content.getAsJsonArray("content") : new JsonArray();
+                            htmlBody.append("<table>\n");
+
+                            // Table header (first row)
+                            if (tableContent.size() > 0) {
+                                JsonArray header = tableContent.get(0).getAsJsonArray();
+                                htmlBody.append("<tr>");
+                                for (JsonElement headerCell : header) {
+                                    htmlBody.append("<th>").append(headerCell.getAsString()).append("</th>");
+                                }
+                                htmlBody.append("</tr>\n");
+
+                                // Table rows (subsequent rows)
+                                for (int i = 1; i < tableContent.size(); i++) {
+                                    JsonArray row = tableContent.get(i).getAsJsonArray();
+                                    htmlBody.append("<tr>");
+                                    for (JsonElement cell : row) {
+                                        htmlBody.append("<td>").append(cell.getAsString()).append("</td>");
+                                    }
+                                    htmlBody.append("</tr>\n");
+                                }
+                            }
+                            htmlBody.append("</table>\n");
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                // End HTML tags
+                htmlBody.append("</body>\n</html>");
+                
+                // Set the HTML body
+                message.setContent(htmlBody.toString(), "text/html");
+            }
+
+            // Send the email
+            Transport.send(message);
+            System.out.println("Mail successfully sent");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Utility method to safely get a String value from JSON
+    private static String getJsonString(JsonObject json, String key) {
+        return json.has(key) && json.get(key) != null ? json.get(key).getAsString() : "";
+    }
+
+    // Utility method to safely get a JsonArray value from JSON
+    private static JsonArray getJsonArray(JsonObject json, String key) {
+        return json.has(key) ? json.getAsJsonArray(key) : new JsonArray();
+    }
+
+    // Basic validation method for the JSON
+    private static boolean isValidJson(JsonObject json) {
+        // Validate the "from" field (should not be missing or empty)
+        if (!json.has("from") || json.get("from").getAsString().isEmpty()) {
+            System.out.println("\"from\" field is required and cannot be empty.");
+            return false;
+        }
+
+        // Validate the "to" field (should contain at least one recipient)
+        JsonArray to = getJsonArray(json, "to");
+        if (to.size() == 0) {
+            System.out.println("\"to\" field must contain at least one recipient.");
+            return false;
+        }
+
+        // Validate the "subject" field (should not be empty)
+        if (!json.has("subject") || json.get("subject").getAsString().isEmpty()) {
+            System.out.println("\"subject\" field is required and cannot be empty.");
+            return false;
+        }
+
+        // Validate that "isHtml" is a valid boolean (if present)
+        if (json.has("isHtml") && !json.get("isHtml").isJsonPrimitive()) {
+            System.out.println("\"isHtml\" should be a boolean value.");
+            return false;
+        }
+
+        // If there are attachments, validate that their "path" is not empty
+        JsonObject body = json.has("body") ? json.getAsJsonObject("body") : new JsonObject();
+        if (body.has("content")) {
+            for (JsonElement element : body.getAsJsonArray("content")) {
+                JsonObject content = element.getAsJsonObject();
+                if (content.has("type") && content.get("type").getAsString().equals("attachment")) {
+                    String filePath = getJsonString(content, "path");
+                    if (filePath.isEmpty()) {
+                        System.out.println("Attachment path cannot be empty.");
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+}
