@@ -1,0 +1,106 @@
+import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.activation.*;
+import javax.mail.Session;
+import javax.mail.Transport;
+import java.io.FileReader;
+import com.google.gson.*;
+
+public class SendEmail {
+    public static void main(String[] args) {
+        try {
+            // Read the JSON file
+            JsonObject emailDetails = JsonParser.parseReader(new FileReader("email_details.json")).getAsJsonObject();
+
+            // Extract details from the JSON object
+            String sender = emailDetails.get("from").getAsString();
+            JsonArray to = emailDetails.getAsJsonArray("to");
+            JsonArray cc = emailDetails.getAsJsonArray("cc");
+            JsonArray bcc = emailDetails.getAsJsonArray("bcc");
+            String subject = emailDetails.get("subject").getAsString();
+            boolean isHtml = emailDetails.get("isHtml").getAsBoolean();
+
+            // Setting up mail server
+            Properties properties = System.getProperties();
+            properties.setProperty("mail.smtp.host", "127.0.0.1");
+            Session session = Session.getDefaultInstance(properties);
+
+            // MimeMessage object
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(sender));
+
+            // Add recipient(s)
+            for (JsonElement recipient : to) {
+                message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient.getAsString()));
+            }
+
+            // Add CC
+            for (JsonElement recipient : cc) {
+                message.addRecipient(Message.RecipientType.CC, new InternetAddress(recipient.getAsString()));
+            }
+
+            // Add BCC
+            for (JsonElement recipient : bcc) {
+                message.addRecipient(Message.RecipientType.BCC, new InternetAddress(recipient.getAsString()));
+            }
+
+            // Set subject
+            message.setSubject(subject);
+
+            // Handle the email body based on the isHtml flag
+            if (isHtml) {
+                String htmlBody = emailDetails.get("htmlBody").getAsString();
+                message.setContent(htmlBody, "text/html");
+            } else {
+                StringBuilder textBody = new StringBuilder();
+                JsonObject body = emailDetails.getAsJsonObject("body");
+
+                // Construct the email body based on JSON content
+                for (JsonElement element : body.getAsJsonArray("content")) {
+                    JsonObject content = element.getAsJsonObject();
+                    String type = content.get("type").getAsString();
+
+                    switch (type) {
+                        case "heading":
+                            int level = content.get("level").getAsInt();
+                            String headingText = content.get("text").getAsString();
+                            textBody.append("\n").append(" ".repeat(level)).append(headingText).append("\n");
+                            break;
+                        case "paragraph":
+                            String paragraphText = content.get("text").getAsString();
+                            textBody.append(paragraphText).append("\n");
+                            break;
+                        case "attachment":
+                            String filePath = content.get("path").getAsString();
+                            // Attach the file (simple method, you can expand for real attachment handling)
+                            textBody.append("Attachment: ").append(filePath).append("\n");
+                            break;
+                        case "table":
+                            // Handle table generation
+                            JsonArray tableContent = content.getAsJsonArray("content");
+                            for (JsonElement row : tableContent) {
+                                JsonArray rowData = row.getAsJsonArray();
+                                for (JsonElement cell : rowData) {
+                                    textBody.append(cell.getAsString()).append(" ");
+                                }
+                                textBody.append("\n");
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                // Set the plain text body
+                message.setText(textBody.toString());
+            }
+
+            // Send the email
+            Transport.send(message);
+            System.out.println("Mail successfully sent");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
