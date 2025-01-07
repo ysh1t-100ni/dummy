@@ -1,0 +1,167 @@
+[
+    {
+      "question": "Which tool is commonly used for version control?",
+      "options": ["Jira", "GitHub", "Confluence", "VSCode"],
+      "correct_answer": "GitHub"
+    },
+    {
+      "question": "Which tool is widely used for issue tracking and project management?",
+      "options": ["GitHub", "Jira", "VSCode", "Slack"],
+      "correct_answer": "Jira"
+    },
+    {
+      "question": "Which programming language is primarily used with Node.js?",
+      "options": ["Java", "Python", "JavaScript", "Ruby"],
+      "correct_answer": "JavaScript"
+    },
+    {
+      "question": "What is the file extension for Python scripts?",
+      "options": [".java", ".py", ".js", ".rb"],
+      "correct_answer": ".py"
+    },
+    {
+      "question": "Which of these is a popular code editor?",
+      "options": ["Visual Studio", "VSCode", "Jira", "Confluence"],
+      "correct_answer": "VSCode"
+    },
+    {
+      "question": "What is the default version control system in GitHub?",
+      "options": ["Mercurial", "Git", "SVN", "CVS"],
+      "correct_answer": "Git"
+    },
+    {
+      "question": "Which tool is commonly used for documentation and knowledge sharing?",
+      "options": ["Jira", "Confluence", "GitHub", "VSCode"],
+      "correct_answer": "Confluence"
+    },
+    {
+      "question": "Which command is used to install packages in Node.js?",
+      "options": ["npm install", "node install", "npm get", "install npm"],
+      "correct_answer": "npm install"
+    },
+    {
+      "question": "Which of these is a tool used for debugging Python applications?",
+      "options": ["VSCode", "Jira", "PDB", "GitHub"],
+      "correct_answer": "PDB"
+    },
+    {
+      "question": "Which tool is used for containerization and deployment?",
+      "options": ["Docker", "Node.js", "GitHub", "Confluence"],
+      "correct_answer": "Docker"
+    },
+    {
+      "question": "What is the primary purpose of Node.js?",
+      "options": ["Web Development", "Desktop Development", "Game Development", "Machine Learning"],
+      "correct_answer": "Web Development"
+    },
+    {
+      "question": "What does 'git clone' do in Git?",
+      "options": ["Creates a new repository", "Copies a repository to your local machine", "Adds a file to the repository", "Commits changes to the repository"],
+      "correct_answer": "Copies a repository to your local machine"
+    },
+    {
+      "question": "Which of these is a task runner in Node.js?",
+      "options": ["Gulp", "Grunt", "Webpack", "All of the above"],
+      "correct_answer": "All of the above"
+    },
+    {
+      "question": "What is the purpose of a pull request in GitHub?",
+      "options": ["To update the local repository", "To propose changes to a project", "To create a new branch", "To merge branches"],
+      "correct_answer": "To propose changes to a project"
+    },
+    {
+      "question": "Which language is primarily used for developing React applications?",
+      "options": ["Python", "JavaScript", "Java", "Ruby"],
+      "correct_answer": "JavaScript"
+    },
+    {
+      "question": "What is a 'branch' in Git?",
+      "options": ["A new feature", "A version of a repository", "A tool for code formatting", "A part of the commit history"],
+      "correct_answer": "A version of a repository"
+    },
+    {
+      "question": "What is the common use of JIRA?",
+      "options": ["Version control", "Project management and issue tracking", "Code editing", "Code compiling"],
+      "correct_answer": "Project management and issue tracking"
+    },
+    {
+      "question": "Which tool is used for real-time collaboration and project management?",
+      "options": ["Confluence", "Slack", "Jira", "GitHub"],
+      "correct_answer": "Slack"
+    },
+    {
+      "question": "Which of these is a static code analysis tool for JavaScript?",
+      "options": ["ESLint", "Prettier", "SonarQube", "Webpack"],
+      "correct_answer": "ESLint"
+    },
+    {
+      "question": "Which of these is NOT a JavaScript framework?",
+      "options": ["React", "Angular", "Vue.js", "Python"],
+      "correct_answer": "Python"
+    },
+    {
+      "question": "What does the 'git pull' command do?",
+      "options": ["Adds changes to the repository", "Fetches and merges changes from a remote repository", "Deletes a branch", "Creates a new branch"],
+      "correct_answer": "Fetches and merges changes from a remote repository"
+    },
+    {
+      "question": "Which of these is a command line tool for managing Python environments?",
+      "options": ["npm", "pip", "maven", "gradle"],
+      "correct_answer": "pip"
+    },
+    {
+      "question": "Which of these is the default Python package manager?",
+      "options": ["npm", "yarn", "pip", "gem"],
+      "correct_answer": "pip"
+    },
+    {
+      "question": "Which file is typically used to specify dependencies for a Node.js project?",
+      "options": ["requirements.txt", "package.json", "build.gradle", "pom.xml"],
+      "correct_answer": "package.json"
+    },
+    {
+      "question": "What is the command to initialize a new Git repository?",
+      "options": ["git start", "git init", "git create", "git begin"],
+      "correct_answer": "git init"
+    },
+    {
+      "question": "Which of these is a code formatter for JavaScript?",
+      "options": ["Prettier", "Webpack", "ESLint", "GitHub Actions"],
+      "correct_answer": "Prettier"
+    },
+    {
+      "question": "What does the 'git commit' command do?",
+      "options": ["Uploads code to GitHub", "Records changes to the repository", "Clones a repository", "Creates a new branch"],
+      "correct_answer": "Records changes to the repository"
+    },
+    {
+      "question": "Which of these tools is used for continuous integration and continuous delivery (CI/CD)?",
+      "options": ["GitHub Actions", "Jenkins", "Travis CI", "All of the above"],
+      "correct_answer": "All of the above"
+    },
+    {
+      "question": "Which is a popular version control system?",
+      "options": ["Git", "Mercurial", "Subversion", "All of the above"],
+      "correct_answer": "All of the above"
+    },
+    {
+      "question": "Which of these is a popular Python web framework?",
+      "options": ["Django", "Angular", "React", "Vue.js"],
+      "correct_answer": "Django"
+    },
+    {
+      "question": "Which of these tools can be used to automate deployment?",
+      "options": ["Docker", "Jenkins", "GitLab CI", "All of the above"],
+      "correct_answer": "All of the above"
+    },
+    {
+      "question": "Which tool is known for its collaboration features, like wikis and blogs?",
+      "options": ["Confluence", "Jira", "GitHub", "VSCode"],
+      "correct_answer": "Confluence"
+    },
+    {
+      "question": "Which of these is used for testing Python code?",
+      "options": ["pytest", "Jest", "Mocha", "JUnit"],
+      "correct_answer": "pytest"
+    }
+]
