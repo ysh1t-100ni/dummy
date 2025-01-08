@@ -3,28 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz App</title>
+    <title>Quiz Results</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container quiz">
-        <h1>Quiz Questions</h1>
-        <form id="quiz-form" method="POST">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            {% for question in questions %}
-            <div class="question-box">
-                <h2>Question {{ loop.index }}</h2>
-                <p>{{ question.question }}</p>
-                {% for option in question.options %}
-                <div class="option">
-                    <input type="radio" id="q{{ loop.parent.index }}o{{ loop.index }}" name="answers[]" value="{{ option }}" required>
-                    <label for="q{{ loop.parent.index }}o{{ loop.index }}">{{ option }}</label>
-                </div>
-                {% endfor %}
-            </div>
-            {% endfor %}
-            <button type="submit">Submit Quiz</button>
-        </form>
+    <div class="container score">
+        <h1>Quiz Results</h1>
+        <div class="score-card">
+            <p>Name: <span class="highlight">{{ name }}</span></p>
+            <p>AId: <span class="highlight">{{ aid }}</span></p>
+            <p>Final Score: <span class="highlight">{{ score }} / {{ total_questions }}</span></p>
+            <p>Time Taken: <span class="highlight">{{ "%.2f"|format(time_taken) }} seconds</span></p>
+        </div>
+        <a href="{{ url_for('index') }}" class="button">Back to Home</a>
+        <a href="{{ url_for('dashboard') }}" class="button">View Top Performers</a>
     </div>
 </body>
 </html>
