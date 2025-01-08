@@ -3,15 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Completed</title>
+    <title>Quiz App</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Quiz Completed</h1>
-        <p>Congratulations! You have completed the quiz.</p>
-        <p>Your final score is: {{ score }}</p>
-        <a href="{{ url_for('index') }}" class="button">Back to Home</a>
+    <div class="container quiz">
+        <h1>Quiz Questions</h1>
+        <form id="quiz-form" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            {% for question in questions %}
+            <div class="question-box">
+                <h2>Question {{ loop.index }}</h2>
+                <p>{{ question.question }}</p>
+                {% for option in question.options %}
+                <div class="option">
+                    <input type="radio" id="q{{ loop.parent.index }}o{{ loop.index }}" name="answers[]" value="{{ option }}" required>
+                    <label for="q{{ loop.parent.index }}o{{ loop.index }}">{{ option }}</label>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            <button type="submit">Submit Quiz</button>
+        </form>
     </div>
 </body>
 </html>
