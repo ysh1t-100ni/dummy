@@ -1,23 +1,100 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Results</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="container score">
-        <h1>Quiz Results</h1>
-        <div class="score-card">
-            <p>Name: <span class="highlight">{{ name }}</span></p>
-            <p>AId: <span class="highlight">{{ aid }}</span></p>
-            <p>Final Score: <span class="highlight">{{ score }} / {{ total_questions }}</span></p>
-            <p>Time Taken: <span class="highlight">{{ "%.2f"|format(time_taken) }} seconds</span></p>
-        </div>
-        <a href="{{ url_for('index') }}" class="button">Back to Home</a>
-        <a href="{{ url_for('dashboard') }}" class="button">View Top Performers</a>
-    </div>
-</body>
-</html>
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session
+from flask_wtf import CSRFProtect
+from quiz_manager import QuizManager
+import csv
+from operator import itemgetter
+import time
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'your-secret-key'  # Change this to a random secret key
+csrf = CSRFProtect(app)
+
+def check_user(aid):
+    with open('users_data.txt', 'r') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            if row[1] == aid:
+                return True
+    return False
+
+def save_user(name, aid, score, time_taken):
+    with open('users_data.txt', 'a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([name, aid, score, time_taken])
+
+def get_top_performers(limit=10):
+    with open('users_data.txt', 'r') as file:
+        reader = csv.reader(file)
+        performers = sorted(reader, key=lambda x: (int(x[2]), -float(x[3])), reverse=True)
+    return performers[:limit]
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        aid = request.form.get('aid')
+        
+        if check_user(aid):
+            return render_template('index.html', error="You have already participated in the quiz.")
+        
+        session['name'] = name
+        session['aid'] = aid
+        
+        # Initialize quiz manager and get random questions
+        quiz_manager = QuizManager()
+        session['current_questions'] = quiz_manager.get_random_questions()
+        session['start_time'] = time.time()
+        
+        return redirect(url_for('quiz'))
+    
+    return render_template('index.html')
+
+@app.route('/quiz', methods=['GET', 'POST'])
+def quiz():
+    if 'name' not in session or 'aid' not in session or 'current_questions' not in session:
+        return redirect(url_for('index'))
+    
+    if request.method == 'POST':
+        answers = request.form.getlist('answers[]')
+        score = 0
+        for i, answer in enumerate(answers):
+            if answer == session['current_questions'][i]['correct_answer']:
+                score += 1
+        
+        end_time = time.time()
+        time_taken = end_time - session['start_time']
+        
+        save_user(session['name'], session['aid'], score, time_taken)
+        
+        session['score'] = score
+        session['time_taken'] = time_taken
+        
+        return redirect(url_for('score'))
+    
+    return render_template('quiz.html', questions=session['current_questions'])
+
+@app.route('/score')
+def score():
+    if 'name' not in session or 'aid' not in session or 'score' not in session:
+        return redirect(url_for('index'))
+    
+    name = session['name']
+    aid = session['aid']
+    score = session['score']
+    time_taken = session['time_taken']
+    total_questions = len(session['current_questions'])
+    
+    # Clear the session
+    session.clear()
+    
+    return render_template('score.html', name=name, aid=aid, score=score, 
+                           time_taken=time_taken, total_questions=total_questions)
+
+@app.route('/dashboard')
+def dashboard():
+    top_performers = get_top_performers()
+    return render_template('dashboard.html', performers=top_performers)
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
