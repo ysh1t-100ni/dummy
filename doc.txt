@@ -1,80 +1,40 @@
-# Java Coding Standards and Best Practices
-
-This document serves as a guide for Java developers to ensure consistency, readability, maintainability, and performance optimization in Java projects.
-
----
-
-## Table of Contents
-
-1. [General Guidelines](#general-guidelines)
-2. [Naming Conventions](#naming-conventions)
-3. [Code Structure](#code-structure)
-4. [Formatting and Indentation](#formatting-and-indentation)
-5. [Comments and Documentation](#comments-and-documentation)
-6. [Error Handling](#error-handling)
-7. [Performance Considerations](#performance-considerations)
-8. [Concurrency](#concurrency)
-9. [Testing](#testing)
-10. [Version Control](#version-control)
-
----
-
-## General Guidelines
-
-- **Readability**: Write code that is easy to understand for others and your future self.
-- **Modularity**: Break down large tasks into smaller, reusable methods and classes.
-- **Single Responsibility Principle**: Each class and method should have one responsibility.
-- **Avoid Duplication**: Do not repeat the same code; prefer reusability and abstraction.
-- **Use Libraries Wisely**: Use third-party libraries that are stable, well-documented, and actively maintained.
-
----
-
-## Naming Conventions
-
-1. **Classes**: Use `PascalCase` for class names.
-   - Example: `CustomerService`, `ProductManager`
-   
-2. **Methods**: Use `camelCase` for method names, starting with a verb.
-   - Example: `getUserName()`, `calculateTotalAmount()`
-   
-3. **Variables**: Use `camelCase` for variables.
-   - Example: `firstName`, `totalAmount`
-   
-4. **Constants**: Use `UPPER_SNAKE_CASE` for constants.
-   - Example: `MAX_RETRIES`, `PI`
-   
-5. **Interfaces**: Use `PascalCase` for interface names, and consider starting with "I" (optional, but common).
-   - Example: `ILogger`, `IUserService`
-   
-6. **Packages**: Use lowercase letters with dot separators for package names.
-   - Example: `com.example.projectname`
-   
-7. **Enums**: Use `PascalCase` for enum names and their constants.
-   - Example: 
-     ```java
-     public enum Status {
-         ACTIVE, INACTIVE, PENDING
-     }
-     ```
-
----
-
-## Code Structure
-
-- **Organize by Functionality**: Group related classes, interfaces, and enums together in appropriate packages.
-- **Avoid Long Classes**: Keep class size manageable; ideally, a class should fit in a single screen.
-- **Avoid Large Methods**: Methods should be concise (usually under 20 lines). Split long methods into smaller ones.
-- **Separation of Concerns**: Use layered architecture (e.g., Controller, Service, Repository) to separate concerns and improve maintainability.
-
----
-
-## Formatting and Indentation
-
-- **Indentation**: Use 4 spaces for indentation (no tabs).
-- **Line Length**: Keep line length to 100-120 characters.
-- **Blank Lines**: Use blank lines to separate logical sections within methods and between methods.
-- **Braces**: Always use braces for loops, if statements, and other control structures, even for single statements.
-  ```java
-  if (condition) {
-      // do something
+{
+    "question": "At FIL, which tool is primarily used for building scalable and fast server-side applications using JavaScript, especially in asynchronous, event-driven environments?",
+    "options": ["Express.js", "Node.js", "Deno", "Angular"],
+    "correct_answer": "Node.js"
+  },
+  {
+    "question": "In FIL's development environment, which lightweight, cross-platform IDE is widely adopted for front-end and full-stack web development, particularly with JavaScript and TypeScript?",
+    "options": ["WebStorm", "Visual Studio Code", "Sublime Text", "Eclipse IDE"],
+    "correct_answer": "Visual Studio Code"
+  },
+  {
+    "question": "At FIL, which Integrated Development Environment (IDE) is most commonly used for Java development, providing advanced support for Spring and JVM-based frameworks?",
+    "options": ["NetBeans", "IntelliJ IDEA", "Visual Studio", "JDeveloper"],
+    "correct_answer": "IntelliJ IDEA"
+  },
+  {
+    "question": "In FIL, which IDE provides a comprehensive set of tools for Python development, with support for scientific computing, web development, and debugging?",
+    "options": ["PyDev", "PyCharm", "Eclipse with PyDev Plugin", "IntelliJ IDEA with Python Plugin"],
+    "correct_answer": "PyCharm"
+  },
+  {
+    "question": "FIL encourages using which programming language that is well-known for its ease of learning, rich ecosystem, and extensive use in machine learning, web development, and automation?",
+    "options": ["JavaScript", "Ruby", "Python", "Go"],
+    "correct_answer": "Python"
+  },
+  {
+    "question": "For Java application development within FIL, which software development kit (SDK) is required for compiling and running Java code, and includes libraries and tools for Java development?",
+    "options": ["JRE", "JDK", "OpenJDK", "Apache Ant"],
+    "correct_answer": "JDK"
+  },
+  {
+    "question": "In FIL's continuous integration process, which tool is used for automating builds and managing dependencies, particularly in Java-based projects?",
+    "options": ["Gradle", "Maven", "Jenkins", "Ant"],
+    "correct_answer": "Maven"
+  },
+  {
+    "question": "At FIL, which tool is utilized to package and deploy applications inside containers, ensuring consistent environments across development, testing, and production?",
+    "options": ["Kubernetes", "Docker", "Vagrant", "Apache Mesos"],
+    "correct_answer": "Docker"
   }
