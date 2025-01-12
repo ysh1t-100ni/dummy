@@ -1,0 +1,40 @@
+{
+        "question": "At FIL, which tool is primarily used for building scalable and fast server-side applications using JavaScript, especially in asynchronous, event-driven environments?",
+        "options": ["Express.js", "Node.js", "Deno", "Angular"],
+        "correct_answer": "Node.js"
+      },
+      {
+        "question": "In FIL's development environment, which lightweight, cross-platform IDE is widely adopted for front-end and full-stack web development, particularly with JavaScript and TypeScript?",
+        "options": ["WebStorm", "Visual Studio Code", "Sublime Text", "Eclipse IDE"],
+        "correct_answer": "Visual Studio Code"
+      },
+      {
+        "question": "At FIL, which Integrated Development Environment (IDE) is most commonly used for Java development, providing advanced support for Spring and JVM-based frameworks?",
+        "options": ["NetBeans", "IntelliJ IDEA", "Visual Studio", "JDeveloper"],
+        "correct_answer": "IntelliJ IDEA"
+      },
+      {
+        "question": "In FIL, which IDE provides a comprehensive set of tools for Python development, with support for scientific computing, web development, and debugging?",
+        "options": ["PyDev", "PyCharm", "Eclipse with PyDev Plugin", "IntelliJ IDEA with Python Plugin"],
+        "correct_answer": "PyCharm"
+      },
+      {
+        "question": "FIL encourages using which programming language that is well-known for its ease of learning, rich ecosystem, and extensive use in machine learning, web development, and automation?",
+        "options": ["JavaScript", "Ruby", "Python", "Go"],
+        "correct_answer": "Python"
+      },
+      {
+        "question": "For Java application development within FIL, which software development kit (SDK) is required for compiling and running Java code, and includes libraries and tools for Java development?",
+        "options": ["JRE", "JDK", "OpenJDK", "Apache Ant"],
+        "correct_answer": "JDK"
+      },
+      {
+        "question": "In FIL's continuous integration process, which tool is used for automating builds and managing dependencies, particularly in Java-based projects?",
+        "options": ["Gradle", "Maven", "Jenkins", "Ant"],
+        "correct_answer": "Maven"
+      },
+      {
+        "question": "At FIL, which tool is utilized to package and deploy applications inside containers, ensuring consistent environments across development, testing, and production?",
+        "options": ["Kubernetes", "Docker", "Vagrant", "Apache Mesos"],
+        "correct_answer": "Docker"
+      }
