@@ -1,0 +1,92 @@
+[
+  {
+    "question": "There are how many steps for a Non-standard S/W request",
+    "options": ["<5", ">7", "6", ">9"],
+    "correct_answer": ">7"
+  },
+  {
+    "question": "How many non-standard S/W requests raised last year",
+    "options": ["<500", "> 4500", "< 3000", "< 4000"],
+    "correct_answer": "> 4500"
+  },
+  {
+    "question": "What is top requested non-standard S/W last year",
+    "options": ["JDK", "VS Code", "Python", "PyCharm"],
+    "correct_answer": "JDK"
+  },
+  {
+    "question": "Number of requests for JDK last year",
+    "options": ["> 500", "< 400", "> 650", "< 375"],
+    "correct_answer": "> 500"
+  },
+  {
+    "question": "Are GitHub Copilot public code suggestions blocked in FIL?",
+    "options": ["Blocked", "Not Blocked", "Blocked and Planning to unblock", "Not Blocked and planning to Block"],
+    "correct_answer": "Blocked"
+  },
+  {
+    "question": "How many GitHub Copilot licensed users are there in FIL?",
+    "options": ["700-800", "800-900", "900-1000", "1000-1100"],
+    "correct_answer": "800-900"
+  },
+  {
+    "question": "Which BU has the maximum number of GitHub Copilot licensed users?",
+    "options": ["GPS", "ISS", "ETS including CE", "Others"],
+    "correct_answer": "ETS including CE"
+  },
+  {
+    "question": "What kind of GitHub runners are available and approved in FIL?",
+    "options": ["GitHub Managed Runners", "Self Managed Runners"],
+    "correct_answer": "GitHub Managed Runners"
+  },
+  {
+    "question": "Which GitHub Actions is not approved in FIL out of the following?",
+    "options": ["actions/checkout@*", "actions/setup-*", "hashicorp/setup-packer@*", "helm/chart-releaser-action"],
+    "correct_answer": "helm/chart-releaser-action"
+  },
+  {
+    "question": "How much average daily user’s effort savings is there for GitHub Copilot in FIL?",
+    "options": ["0-1 hours", "1-2 hours", "2-3 hours", "3-4 hours"],
+    "correct_answer": "1-2 hours"
+  },
+  {
+    "question": "How many reusable GitHub Actions are available in FIL?",
+    "options": ["10-20", "20-30", "30-40", "40-50"],
+    "correct_answer": "20-30"
+  },
+  {
+    "question": "How many GitHub Actions jobs got executed in Jan 2025?",
+    "options": ["2000-4000", "4000-6000", "6000-8000", "8000-10000"],
+    "correct_answer": "4000-6000"
+  },
+  {
+    "question": "What is the approximate total GitHub Actions execution time (in minutes) across all workflows in the FIL production organization for the current month?",
+    "options": ["6000", "7000", "8000", "9000"],
+    "correct_answer": "7000"
+  },
+  {
+    "question": "How many models are available in GitHub Copilot Chat (in preview mode)?",
+    "options": ["3", "4", "5", "6"],
+    "correct_answer": "4"
+  },
+  {
+    "question": "Which scripting framework is recommended for writing custom GitHub Actions in FIL?",
+    "options": ["Django", "Python", "Typescript", "NodeJS"],
+    "correct_answer": "Python"
+  },
+  {
+    "question": "Are GitHub-hosted self-runners managed by individual projects or ITC teams?",
+    "options": ["Individual Projects", "ITC Teams", "Collaborative Efforts", "To be decided"],
+    "correct_answer": "ITC Teams"
+  },
+  {
+    "question": "How do you define the required CPU and memory for a self-hosted GitHub actions runner in FIL?",
+    "options": ["Tags", "Labels", "GitHub Environment variables", "Workflow parameters"],
+    "correct_answer": "Labels"
+  },
+  {
+    "question": "How many lines were suggested by GitHub Copilot for December 2024?",
+    "options": ["100-150k", "150-200k", "200-250k", "250-300k"],
+    "correct_answer": "150-200k"
+  }
+]
