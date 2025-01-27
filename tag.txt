@@ -1,0 +1,54 @@
+pipeline {
+    agent any
+    environment {
+        TAG_NAME = ''
+    }
+    triggers {
+        // Trigger the pipeline when a push occurs to the main branch
+        githubPush()  // Trigger on any push event
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm  // Checkout the code from the repository
+            }
+        }
+
+        stage('Create Tag') {
+            steps {
+                script {
+                    // Ensure we're only tagging if it's a push to the 'main' branch
+                    if (env.GIT_BRANCH == 'refs/heads/main') {
+                        // Get the latest tag and increment the patch version
+                        def latestTag = sh(script: "git describe --tags --abbrev=0", returnStdout: true).trim()
+                        echo "Latest Git Tag: ${latestTag}"
+
+                        // Split the latest tag (assuming it's in the format v1.0.0)
+                        def versionParts = latestTag.split('\\.')
+                        def patchVersion = versionParts[2].toInteger() + 1
+                        TAG_NAME = "v${versionParts[0]}.${versionParts[1]}.${patchVersion}"
+
+                        echo "Creating new tag: ${TAG_NAME}"
+
+                        // Create the new Git tag
+                        sh "git tag ${TAG_NAME}"
+
+                        // Push the tag to the remote repository
+                        sh "git push origin ${TAG_NAME}"
+                    } else {
+                        echo "Not on main branch, skipping tag creation."
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Tag ${TAG_NAME} created and pushed successfully!"
+        }
+        failure {
+            echo "Tag creation failed."
+        }
+    }
+}
